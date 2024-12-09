@@ -1,0 +1,121 @@
+import numpy as np
+import pandas as pd
+
+df=pd.read_csv("C:\\Users\HP\\Downloads\\IMDB Dataset.xls")
+
+df
+
+df.shape
+
+df['review'][3]
+
+df['review']=df['review'].str.lower()
+
+df
+
+import re
+def remove_html_tags(text):
+    pattern=re.compile('<.*?>')
+    return pattern.sub(r'' ,text)
+
+text="Basically there's a family where a little boy (Jake) thinks there's a zombie in his closet & his parents are fighting all the time.<br /><br />This movie is slower than a soap opera... and suddenly, Jake decides to become Rambo and kill the zombie.
+<br /><br />OK, first of all when you're going to make a film you must Decide if its a thriller or a drama! As a drama the movie is watchable. 
+Parents are divorcing & arguing like in real life. 
+And then we have Jake with his closet which totally ruins all the film! I expected to see a BOOGEYMAN similar movie, and instead i watched a drama with some meaningless thriller spots.
+<br /><br />3 out of 10 just for the well playing parents & descent dialogs. As for the shots with Jake: just ignore them."
+
+remove_html_tags(text)
+
+df['review']=df['review'].apply(remove_html_tags)
+
+df
+
+def remove_url(text):
+    pattern=re.compile(r'https?://\S+|www\.\S+')
+    return pattern.sub(r'' ,text)
+
+import string 
+string.punctuation
+
+exclude=string.punctuation
+
+def remove_punc(text):
+    for char in exclude:
+        text=text.replace(char,'')
+    return text
+
+text='string& With\\ Punctuation?'
+
+print(remove_punc(text))
+
+# Chat word Treatment
+abbrevations =[("AFAIK","As Far As I Know"),
+               ("AFK","Away From Keyboard"),
+              ("ASAP","As Soon As Possible"),
+              ("ATK","At The Keyboard")]
+
+abbrevations_dict ={abbr:meaning for abbr, meaning in abbrevations}
+print(abbrevations_dict)
+
+def chat_conversion(text):
+    new_text= []
+    for w in text.split():
+        if w.upper() in abbrevations_dict:
+            new_text.append(abbrevations_dict[w.upper()])
+        else:
+            new_text.append(w)
+    return " ".join(new_text)
+
+chat_conversion("ATK")
+
+chat_conversion("Submit Report ASAP")
+
+# removing stop words
+from nltk.corpus import stopwords
+
+import nltk
+nltk.download('stopwords')
+
+from nltk.corpus import stopwords
+english_stopwords = stopwords.words('english')
+print(english_stopwords)
+
+len(english_stopwords)
+
+from nltk.corpus import stopwords
+spanish_stopwords = stopwords.words('spanish')
+print(spanish_stopwords)
+
+len(spanish_stopwords)
+
+from nltk.corpus import stopwords
+
+def remove_stopwords(text):
+    new_text = []
+    
+    
+    for word in text.split():
+        if word not in stopwords.words('english'):
+            new_text.appen(word)
+            
+    return " ".join(new_text)
+
+pip install emoji
+
+import emoji
+print (emoji.demojize('I Love Python✌️🕹️'))
+
+def remove_emojis (text):
+    # Emoji pattern based on Unicode emoji ranges
+    emoji_pattern = re. compile("["
+                                u"\U0001F600-\U0001F64F"    #emoticons
+                                u"\U0001F300-\U0001F5FF"    #symbols & pictographs
+                                u"\U0001F680-\U0001F6FF"     #transport & nap symbols 
+                                u"\U0001F1E0-\U0001F1FF"    #flags(iOS)
+                                u"\U00002702-\U000027B0"    #Dingbats  
+                                u"\U000024C2-\U00001F251"   #Enclosed Characters
+                                "]+", flags=re.UNICODE)
+    return emoji_pattern.sub(r'', text)
+
+
+
