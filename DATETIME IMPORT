@@ -1,0 +1,64 @@
+from datetime import datetime
+
+today = datetime.today()
+print("today's date",today)
+
+from datetime import datetime
+
+now = datetime.now()
+print(now)
+
+import datetime
+    
+now = datetime.datetime.now()
+print(now)
+
+%%writefile test.txt
+hi1
+hi2
+
+my_file = open('test.txt')
+my_file.read()
+
+my_file.read()
+
+my_file.seek(0)
+
+my_file.read()
+
+my_file.readlines()
+
+my_file.seek(0)
+
+my_file.readlines()
+
+my_file.close()
+
+my_file= open('test.txt','w+')
+
+my_file.write('Hi3')
+
+my_file.seek(0)
+
+my_file.read()
+
+my_file.close()
+
+my_file= open('test.txt','a+')
+
+my_file.write('\nHi4')
+
+my_file.seek(0)
+
+my_file.read()
+
+print(my_file.read())
+
+my_file.seek(0)
+
+print(my_file.read())
+
+with open('test.txt','r') as txt: 
+    first_line = txt.readlines()[0]
+print(first_line)
+
