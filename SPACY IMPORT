@@ -1,0 +1,118 @@
+!pip install -U spacy
+
+import spacy
+
+!python -m spacy download en_core_web_sm
+
+#import -m spacy and load the language library
+nlp = spacy.load('en_core_web_sm')
+
+#create a doc object
+doc = nlp('uTesla is looking at buying U.S startup for $6 million')
+
+#print each token seperately
+for token in doc:
+    print(token.text, token.pos_, token.dep_)
+
+nlp.pipeline
+
+#create a string that include opening and closing quotation marks
+mystring = '"we\ re moving to L.A!"'
+print(mystring)
+
+#create a doc object and explore token 
+doc=nlp(mystring)
+
+for token in doc:
+    print(token.text, end='|')
+
+#prefixes, suffixes and infixes
+doc2=nlp(u"we're here to help! send-mails")
+
+for t in doc2:
+    print(t)
+
+doc3=nlp(u'Askin NYC cab ride costs $10.30')
+
+for t in doc3:
+    print(t)
+
+#exceptions
+doc4=nlp(u"lets visit St. Louis in the U.S next year")
+
+for t in doc4:
+    print(t)
+
+#counting tokens
+len(doc)
+
+#token can be retreieved by index position and slice
+doc5=nlp(u'It is better to give than to recieve')
+
+#retrieve the third token
+doc5[2]
+
+doc5[2:5]
+
+doc5[-4:]
+
+#tokens can not be reassigned
+doc6=nlp(u'My dinner was horrible.')
+doc7=nlp(u'Your dinner was delicious.')
+
+#try to change "my dinner was horrible" to "my dinner was delicious"
+doc6[3]=doc7=[3]
+
+#named entities
+doc8=nlp(u'Apple to build a Hong Kong factory for $6 million')
+
+for token in doc8:
+    print(token.text, end='|')
+
+print('\n----')
+
+for ent in doc8.ents:
+    print(ent.text+' -'+ent.label_+'-'+str(spacy.explain(ent.label_)))
+
+len(doc8.ents)
+
+doc9 = nlp(u"Autonomous cars shift insurance liability toward manufacturers.")
+
+for chunk in doc9.noun_chunks:
+    print(chunk.text)
+
+
+doc10 = nlp(u"Red cars do not carry higher insurance rates.")
+
+for chunk in doc10.noun_chunks:
+    print(chunk.text)
+
+doc11 = nlp(u"He was a one-eyed, one-horned, flying, purple people-eater.")
+
+for chunk in doc11.noun_chunks:
+    print(chunk.text)
+
+#Built-in Visualizers
+
+# Visualizing the dependency parse
+
+from spacy import displacy
+
+doc = nlp(u'Apple is going to build a U.K. factory for $6 million.')
+displacy.render(doc, style='dep', jupyter=True, options={'distance': 90})
+
+
+# Visualizing the entity recognizer
+
+doc = nlp(u'Over the last quarter Apple sold nearly 20 thousand iPods for a profit of $6 million.')
+displacy.render(doc, style='ent', jupyter=True)
+
+
+#perform standard imports, reset nlp
+import spacy
+nlp = spacy.load('en_core_web_sm')
+
+#import the phrasematcher library
+from spacy.matcher import PhraseMatcher
+matcher = PhraseMatcher(nlp.vocab)
+
